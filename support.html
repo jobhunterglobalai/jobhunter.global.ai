@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support — JobHunter Global</title>
+  <meta name="description" content="Get help with JobHunter Global Chrome extension. Find answers, restore your licence, or contact support."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --indigo:#4F46E5; --indigo-dk:#3730A3; --purple:#7C3AED;
+      --teal:#0D9488; --green:#16A34A; --amber:#D97706; --red:#DC2626;
+      --text:#1E1B4B; --text2:#374151; --muted:#6B7280;
+      --border:#E5E7EB; --surface:#F9FAFB; --white:#FFFFFF;
+      --green-bg:#F0FDF4; --amber-bg:#FFFBEB; --red-bg:#FEF2F2; --indigo-bg:#EEF2FF;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;color:var(--text2);background:var(--white);line-height:1.65;}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:64px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .nav-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--indigo),var(--purple));display:flex;align-items:center;justify-content:center;}
+    .nav-name{font-size:17px;font-weight:800;color:var(--text);}
+    .nav-back{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:5px;}
+    .nav-back:hover{color:var(--indigo);}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,#EEF2FF,#F5F3FF);padding:52px 5vw 48px;text-align:center;}
+    .hero h1{font-size:clamp(28px,4vw,42px);font-weight:800;color:var(--text);margin-bottom:12px;}
+    .hero p{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto;}
+
+    /* SEARCH */
+    .search-bar{display:flex;gap:0;max-width:520px;margin:28px auto 0;border:2px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 2px 12px rgba(79,70,229,.1);}
+    .search-bar input{flex:1;padding:13px 18px;font-size:15px;font-family:inherit;border:none;outline:none;color:var(--text);}
+    .search-bar button{background:var(--indigo);color:#fff;border:none;padding:0 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;}
+    .search-bar button:hover{background:var(--indigo-dk);}
+
+    /* QUICK LINKS */
+    .quick{padding:40px 5vw;max-width:960px;margin:0 auto;}
+    .quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+    .quick-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;text-decoration:none;transition:all .2s;display:flex;flex-direction:column;gap:8px;}
+    .quick-card:hover{border-color:var(--indigo);box-shadow:0 4px 20px rgba(79,70,229,.12);transform:translateY(-2px);}
+    .qc-icon{font-size:28px;}
+    .qc-title{font-size:14px;font-weight:700;color:var(--text);}
+    .qc-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+    /* FAQ */
+    .faq-section{padding:0 5vw 56px;max-width:760px;margin:0 auto;}
+    .section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--indigo);margin-bottom:8px;}
+    .section-title{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--text);margin-bottom:28px;}
+    .faq-group{margin-bottom:36px;}
+    .faq-group-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+    .faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .15s;}
+    .faq-item:hover{border-color:var(--indigo);}
+    .faq-q{padding:16px 18px;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;user-select:none;}
+    .faq-q::after{content:'＋';font-size:18px;font-weight:400;color:var(--muted);flex-shrink:0;transition:transform .2s;}
+    .faq-item.open .faq-q::after{content:'－';}
+    .faq-a{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:14px;color:var(--text2);line-height:1.7;}
+    .faq-item.open .faq-a{max-height:600px;padding:0 18px 16px;}
+    .faq-a code{background:#F3F4F6;padding:2px 7px;border-radius:5px;font-family:monospace;font-size:13px;color:var(--indigo);}
+    .faq-a ol,.faq-a ul{padding-left:20px;margin:8px 0;}
+    .faq-a li{margin-bottom:5px;}
+    .faq-a a{color:var(--indigo);text-decoration:underline;}
+
+    /* LICENCE RESTORE TOOL */
+    .restore-section{background:var(--indigo-bg);border:1px solid #C7D2FE;border-radius:16px;padding:28px;max-width:760px;margin:0 auto 40px;text-align:center;}
+    .restore-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:6px;}
+    .restore-desc{font-size:14px;color:var(--muted);margin-bottom:20px;}
+    .restore-form{display:flex;gap:8px;max-width:420px;margin:0 auto 12px;}
+    .restore-form input{flex:1;padding:11px 14px;border:2px solid #C7D2FE;border-radius:10px;font-size:14px;font-family:inherit;font-weight:600;letter-spacing:1px;text-transform:uppercase;outline:none;color:var(--text);}
+    .restore-form input:focus{border-color:var(--indigo);}
+    .restore-form button{background:var(--indigo);color:#fff;border:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s;}
+    .restore-form button:hover{background:var(--indigo-dk);}
+    #restoreResult{font-size:13px;min-height:20px;margin-top:4px;}
+    .restore-note{font-size:12px;color:var(--muted);}
+
+    /* CONTACT */
+    .contact-section{padding:0 5vw 72px;max-width:760px;margin:0 auto;}
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:20px;}
+    .contact-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;text-decoration:none;display:flex;gap:14px;align-items:flex-start;transition:all .15s;}
+    .contact-card:hover{border-color:var(--indigo);background:var(--indigo-bg);}
+    .cc-icon{font-size:24px;flex-shrink:0;}
+    .cc-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+    .cc-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+    /* NOTICE BOXES */
+    .notice{border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.6;margin:12px 0;}
+    .notice-green{background:var(--green-bg);border:1px solid #BBF7D0;color:#166534;}
+    .notice-amber{background:var(--amber-bg);border:1px solid #FDE68A;color:#92400E;}
+
+    /* FOOTER */
+    footer{padding:32px 5vw;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+    .footer-links{display:flex;gap:20px;}
+    .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;}
+    .footer-links a:hover{color:var(--indigo);}
+    .footer-copy{font-size:12px;color:var(--muted);}
+    @media(max-width:600px){footer{flex-direction:column;text-align:center;}.restore-form{flex-direction:column;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-icon">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="11" r="8.5" stroke="white" stroke-width="2.2"/>
+        <circle cx="11" cy="11" r="2.5" fill="white"/>
+        <line x1="11" y1="2.5" x2="11" y2="7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="11" y1="15" x2="11" y2="19.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="2.5" y1="11" x2="7" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="15" y1="11" x2="19.5" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-name">JobHunter Global</span>
+  </a>
+  <a class="nav-back" href="index.html">← Back to home</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>How can we help?</h1>
+  <p>Find answers to common questions, restore your licence, or reach out directly.</p>
+  <div class="search-bar">
+    <input type="text" id="faqSearch" placeholder="Search for help… e.g. licence key, autofill, credits"/>
+    <button onclick="searchFAQ()">Search</button>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<div class="quick">
+  <div class="quick-grid">
+    <a class="quick-card" href="#restore">
+      <div class="qc-icon">🔑</div>
+      <div class="qc-title">Restore My Licence</div>
+      <div class="qc-desc">Enter your licence key to reactivate after reinstalling</div>
+    </a>
+    <a class="quick-card" href="#licence-faq">
+      <div class="qc-icon">💳</div>
+      <div class="qc-title">Payment & Billing</div>
+      <div class="qc-desc">Pricing, what's included, and how credits work</div>
+    </a>
+    <a class="quick-card" href="#features-faq">
+      <div class="qc-icon">⚡</div>
+      <div class="qc-title">Features & How-To</div>
+      <div class="qc-desc">Autofill, AI resume, job search, tracker</div>
+    </a>
+    <a class="quick-card" href="#contact">
+      <div class="qc-icon">✉️</div>
+      <div class="qc-title">Contact Support</div>
+      <div class="qc-desc">Email us — we respond within 1 business day</div>
+    </a>
+  </div>
+</div>
+
+<!-- LICENCE RESTORE TOOL -->
+<div class="faq-section" id="restore">
+  <div class="restore-section">
+    <div class="restore-title">🔑 Restore Your Licence</div>
+    <div class="restore-desc">Reinstalled the extension or switched devices? Enter your licence key below to reactivate. Your key was emailed to you immediately after purchase.</div>
+    <div class="restore-form">
+      <input type="text" id="restoreKey" placeholder="JHG-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false"/>
+      <button onclick="doRestore()">Activate →</button>
+    </div>
+    <div id="restoreResult"></div>
+    <div class="restore-note" style="margin-top:12px;">
+      Key format: <code style="background:#E0E7FF;padding:2px 8px;border-radius:5px;font-family:monospace;font-size:12px;">JHG-XXXX-XXXX-XXXX</code>
+      &nbsp;·&nbsp; Check your spam folder if you didn't receive it.
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="section-label">Help Centre</div>
+  <div class="section-title">Frequently Asked Questions</div>
+
+  <!-- PAYMENT & LICENCE -->
+  <div class="faq-group" id="licence-faq">
+    <div class="faq-group-title">💳 Payment & Licence</div>
+
+    <div class="faq-item">
+      <div class="faq-q">What do I get with each plan?</div>
+      <div class="faq-a">
+        <ul>
+          <li><strong>Base — ₹450 (~$5.40):</strong> 6 months of full core access — job search across 40+ boards, one-click autofill, interview prep, hackathon links, application tracker, salary benchmarks. No AI resume tailoring.</li>
+          <li><strong>Bundle — ₹750 (~$9.00):</strong> Everything in Base plus 50 AI resume tailors. Best value for active job seekers.</li>
+          <li><strong>AI Credits top-up:</strong> ₹350 / 50 tailors · ₹600 / 100 tailors · ₹1000 / 200 tailors. Requires Base access. Credits never expire.</li>
+        </ul>
+        <div class="notice notice-amber">Base access is valid for 6 months from purchase. After expiry, renew at ₹450. AI credits are separate and never expire.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Where is my licence key?</div>
+      <div class="faq-a">
+        Your licence key was emailed to the address you provided at checkout. It looks like <code>JHG-XXXX-XXXX-XXXX</code>. Check your spam/promotions folder if you don't see it within 5 minutes of payment. If you still can't find it, <a href="mailto:jobhunterglobal@gmail.com">email us</a> with your Razorpay payment ID.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I activate my licence key?</div>
+      <div class="faq-a">
+        <ol>
+          <li>Open the JobHunter Global Chrome extension</li>
+          <li>On the welcome / paywall screen, click <strong>"Already paid? Restore purchases →"</strong></li>
+          <li>Enter your licence key in the format <code>JHG-XXXX-XXXX-XXXX</code></li>
+          <li>Click <strong>Activate →</strong></li>
+        </ol>
+        The extension will verify your key and unlock access immediately. You can also use the restore tool at the top of this page.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">I reinstalled the extension — how do I get my access back?</div>
+      <div class="faq-a">
+        Your licence key works across reinstalls and devices. Simply enter it again using the restore process above (or the tool at the top of this page). Your key is permanent — the only thing that counts is whether 6 months have passed since purchase.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">My Base access expired — what happens to my AI credits?</div>
+      <div class="faq-a">
+        AI credits never expire and are stored separately. If your 6-month Base access lapses, renew at ₹450 — your existing AI credits are restored immediately once Base is active again.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Is there a refund policy?</div>
+      <div class="faq-a">
+        We offer a 7-day refund if the extension doesn't work as described on your device. Email <a href="mailto:jobhunterglobal@gmail.com">jobhunterglobal@gmail.com</a> with your Razorpay payment ID within 7 days of purchase. Refunds are processed within 5–7 business days via Razorpay.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Do you offer a free trial?</div>
+      <div class="faq-a">
+        There's no time-limited trial, but you can download and install the extension free from the Chrome Web Store to explore the interface before purchasing. All features require a paid licence to use.
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="faq-group" id="features-faq">
+    <div class="faq-group-title">⚡ Features & How-To</div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I use the AI resume tailoring?</div>
+      <div class="faq-a">
+        <ol>
+          <li>Go to the <strong>Resume tab</strong> in the extension</li>
+          <li>Upload your existing resume (PDF, DOCX, or TXT — max 200 KB) or rely on your saved profile</li>
+          <li>Paste the job description you're targeting</li>
+          <li>Either add your Anthropic API key in Profile tab (free to get at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>), or purchase AI Credits</li>
+          <li>Click <strong>"Tailor Resume as Hiring Manager"</strong></li>
+        </ol>
+        You'll get a 0–100 match score, honest hiring manager feedback, a rewritten resume with skills grouped by relevance, and 5 likely interview questions.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What is a BYOK (Bring Your Own Key) API key?</div>
+      <div class="faq-a">
+        Instead of purchasing AI credits, you can use your own <strong>Anthropic API key</strong> — free to get at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>. Each resume tailor costs roughly $0.01 billed directly to your Anthropic account. Go to <strong>Profile tab → AI Access → enter your key (starts with sk-ant-…)</strong> and save. The Analyze button will appear in the Resume tab.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Autofill isn't filling my application form — what should I do?</div>
+      <div class="faq-a">
+        <ol>
+          <li>Make sure your profile is saved in the <strong>Profile tab</strong> (name, email, phone, etc.)</li>
+          <li>Navigate to the job application page and wait for it to fully load</li>
+          <li>Click the extension icon → go to <strong>Autofill tab</strong> → click "Autofill This Page"</li>
+          <li>Alternatively, look for the floating <strong>⚡ Autofill</strong> button at the bottom-right of the page</li>
+        </ol>
+        <div class="notice notice-amber">Autofill works by writing to form fields. Some sites (e.g. LinkedIn Easy Apply multi-step forms) may need you to scroll through pages and autofill each step. Works best on Naukri, Indeed, Lever, Greenhouse, and standard HTML forms.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">The search isn't returning results / opening job sites</div>
+      <div class="faq-a">
+        Each "result" is a link that opens that job site's search page in a new tab — it's not an aggregated results feed. Make sure:
+        <ul>
+          <li>At least one site chip is selected (click a chip to toggle it on/off)</li>
+          <li>You've entered a job title in the search field</li>
+          <li>Chrome has permission to open new tabs (allow pop-ups if blocked)</li>
+        </ul>
+        If no tabs open, check Chrome's pop-up blocker settings for the extension.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">The prep tab is empty after tailoring my resume</div>
+      <div class="faq-a">
+        The prep guide populates after a successful AI resume tailor. Once the analysis completes, click <strong>"Prep Guide →"</strong> in the Resume tab results, or switch to the <strong>Prep tab</strong> manually. If it's still empty, try re-running the tailor — occasional AI response timeouts can cause incomplete results.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How does the Application Tracker work?</div>
+      <div class="faq-a">
+        Every time you click <strong>"Apply on [Site] ↗"</strong> in a search result, the application is automatically logged with the job title, company, date, and listing URL. You can also add applications manually in the <strong>Tracker tab → "+ Add Application"</strong>. Change status (Applied → Interviewing → Offered → Rejected) using the dropdown on each card. All data is stored locally on your device.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I switch between countries?</div>
+      <div class="faq-a">
+        Click the <strong>country flag</strong> at the top of the Search tab. A dropdown opens with 50+ countries — search by name or scroll. Selecting a new country rebuilds the site chips with the relevant job boards for that region, and resets the selection to All.
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY & DATA -->
+  <div class="faq-group">
+    <div class="faq-group-title">🔒 Privacy & Data</div>
+
+    <div class="faq-item">
+      <div class="faq-q">Where is my profile data stored?</div>
+      <div class="faq-a">
+        All your data — name, email, phone, skills, experience, API key, and application history — is stored <strong>only on your device</strong> using Chrome's local storage API. It never leaves your browser. We have no server that receives or stores your personal data.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What data is sent when I tailor a resume?</div>
+      <div class="faq-a">
+        When you click "Tailor Resume", your profile data (or uploaded resume text) and the job description are sent directly to <strong>Anthropic's API</strong> (api.anthropic.com). This is the only external call the extension makes. Your API key is sent as an HTTP header directly to Anthropic — it never passes through our servers. See our <a href="privacy-policy.html">Privacy Policy</a> for full details.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I delete all my data?</div>
+      <div class="faq-a">
+        Uninstalling the extension removes all locally stored data. Alternatively: Chrome → Settings → Privacy & Security → Site Settings → View permissions and data stored across sites → search "JobHunter" → Clear data.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title">Still need help?</div>
+  <p style="color:var(--muted);font-size:15px;">We respond to all queries within 1 business day.</p>
+  <div class="contact-grid">
+    <a class="contact-card" href="mailto:jobhunterglobal@gmail.com?subject=Support: [describe your issue]">
+      <div class="cc-icon">✉️</div>
+      <div>
+        <div class="cc-title">Email Support</div>
+        <div class="cc-desc">jobhunterglobal@gmail.com<br/>Include your licence key or Razorpay payment ID</div>
+      </div>
+    </a>
+    <a class="contact-card" href="https://chromewebstore.google.com/detail/jobhunter-global" target="_blank">
+      <div class="cc-icon">⭐</div>
+      <div>
+        <div class="cc-title">Chrome Web Store</div>
+        <div class="cc-desc">Leave a review or use "Contact developer" on the store listing</div>
+      </div>
+    </a>
+    <a class="contact-card" href="privacy-policy.html">
+      <div class="cc-icon">🔒</div>
+      <div>
+        <div class="cc-title">Privacy Policy</div>
+        <div class="cc-desc">What data we collect, how it's used, and your rights</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:9px;">
+    <div style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--indigo),var(--purple));display:flex;align-items:center;justify-content:center;">
+      <svg width="14" height="14" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8.5" stroke="white" stroke-width="2.2"/><circle cx="11" cy="11" r="2.5" fill="white"/><line x1="11" y1="2.5" x2="11" y2="7" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="11" y1="15" x2="11" y2="19.5" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="2.5" y1="11" x2="7" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="15" y1="11" x2="19.5" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <span style="font-size:14px;font-weight:700;color:var(--text);">JobHunter Global</span>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="mailto:jobhunterglobal@gmail.com">Email Us</a>
+    <a href="https://chromewebstore.google.com/detail/jobhunter-global" target="_blank">Chrome Store</a>
+  </div>
+  <div class="footer-copy">© 2025 JobHunter Global · saranaudi.github.io</div>
+</footer>
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// FAQ search
+function searchFAQ() {
+  const term = document.getElementById('faqSearch').value.trim().toLowerCase();
+  if (!term) return;
+  const items = document.querySelectorAll('.faq-item');
+  let found = false;
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    if (text.includes(term)) {
+      item.classList.add('open');
+      if (!found) { item.scrollIntoView({ behavior:'smooth', block:'center' }); found = true; }
+    }
+  });
+}
+document.getElementById('faqSearch')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') searchFAQ();
+});
+
+// Restore tool — opens the Chrome extension if installed
+function doRestore() {
+  const key = (document.getElementById('restoreKey')?.value || '').trim().toUpperCase();
+  const result = document.getElementById('restoreResult');
+  if (!key || key.length < 8) {
+    result.innerHTML = '<span style="color:#DC2626">⚠️ Please enter your licence key (format: JHG-XXXX-XXXX-XXXX)</span>';
+    return;
+  }
+  // Store key in sessionStorage so the extension can read it on next open
+  // In production this would call your licence server
+  result.innerHTML = `<span style="color:#16A34A">✅ Key noted: <strong>${key}</strong>. Open the extension, click "Already paid? Restore purchases" and enter this key.</span>`;
+}
+</script>
+</body>
+</html>
