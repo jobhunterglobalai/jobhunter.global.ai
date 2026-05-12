@@ -1,286 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JobHunter Global — AI Job Search Chrome Extension</title>
-  <meta name="description" content="Search 40+ job sites across 50 countries, tailor your resume with an AI Hiring Manager, autofill applications, and track every job you apply to — all in one Chrome extension."/>
-  <meta property="og:title" content="JobHunter Global — AI Job Search Assistant"/>
-  <meta property="og:description" content="Search 40+ job sites, AI resume tailoring, one-click autofill, interview prep & job tracker."/>
-  <meta property="og:image" content="https://jobhunterglobalai.github.io/jobhunter.global.ai/og-image.png"/>
-  <meta property="og:url" content="https://jobhunterglobalai.github.io/jobhunter.global.ai/"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --indigo: #4F46E5; --indigo-dk: #3730A3; --purple: #7C3AED;
-      --teal: #0D9488; --green: #16A34A; --amber: #D97706;
-      --text: #1E1B4B; --text2: #374151; --muted: #6B7280;
-      --border: #E5E7EB; --surface: #F9FAFB; --white: #FFFFFF;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      color: var(--text2); background: var(--white); line-height: 1.65;
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#4F46E5"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="JobHunter"/>
+<meta name="description" content="Search 40+ job sites across 50 countries, tailor your resume with AI, autofill applications, and track every job — all from one app."/>
+<meta property="og:title" content="JobHunter Global — AI Job Search Assistant"/>
+<meta property="og:description" content="Search 40+ job boards, AI resume tailoring, autofill, interview prep & tracker."/>
+<meta property="og:image" content="https://jobhunterglobalai.github.io/jobhunter.global.ai/og-image.png"/>
+<meta property="og:url" content="https://jobhunterglobalai.github.io/jobhunter.global.ai/"/>
+<title>JobHunter Global — AI Job Search</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/icon-192.png"/>
+<link rel="icon" type="image/png" href="icons/icon-192.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --indigo:    #4F46E5;
+  --indigo-dk: #3730A3;
+  --purple:    #7C3AED;
+  --teal:      #0D9488;
+  --green:     #16A34A;
+  --amber:     #D97706;
+  --red:       #DC2626;
+  --text:      #1E1B4B;
+  --text2:     #374151;
+  --muted:     #6B7280;
+  --border:    #E5E7EB;
+  --surface:   #F9FAFB;
+  --white:     #FFFFFF;
+  --indigo-lt: #EEF2FF;
+  --purple-lt: #F5F3FF;
+  --c7d2fe:    #C7D2FE;
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
 
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 5vw; display: flex; align-items: center;
-      justify-content: space-between; height: 64px;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      display: flex; align-items: center; justify-content: center;
-    }
-    .nav-name { font-size: 17px; font-weight: 800; color: var(--text); }
-    .nav-links { display: flex; align-items: center; gap: 28px; }
-    .nav-links a { font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; transition: color .15s; }
-    .nav-links a:hover { color: var(--indigo); }
-    .nav-cta {
-      background: var(--indigo); color: #fff; border-radius: 10px;
-      padding: 9px 20px; font-size: 14px; font-weight: 700;
-      text-decoration: none; transition: all .15s;
-    }
-    .nav-cta:hover { background: var(--indigo-dk); transform: translateY(-1px); }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text2); background: var(--white);
+  line-height: 1.65; overflow-x: hidden;
+  padding-bottom: calc(72px + var(--safe-bottom));
+}
+img { max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 50%, #F0FDF4 100%);
-      padding: 80px 5vw 72px; text-align: center; overflow: hidden; position: relative;
-    }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(79,70,229,.08), transparent);
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: #EEF2FF; border: 1px solid #C7D2FE;
-      border-radius: 20px; padding: 5px 14px; font-size: 13px;
-      font-weight: 600; color: var(--indigo); margin-bottom: 24px;
-    }
-    .hero h1 {
-      font-size: clamp(36px, 6vw, 64px); font-weight: 800;
-      color: var(--text); line-height: 1.1; letter-spacing: -1px;
-      margin-bottom: 20px;
-    }
-    .hero h1 span { color: var(--indigo); }
-    .hero-sub {
-      font-size: clamp(16px, 2vw, 20px); color: var(--muted);
-      max-width: 600px; margin: 0 auto 36px; line-height: 1.7;
-    }
-    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      color: #fff; border-radius: 12px; padding: 14px 28px;
-      font-size: 16px; font-weight: 700; text-decoration: none;
-      box-shadow: 0 4px 20px rgba(79,70,229,.35); transition: all .2s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,70,229,.45); }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--text); border-radius: 12px;
-      padding: 14px 28px; font-size: 16px; font-weight: 700;
-      text-decoration: none; border: 1.5px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,.06); transition: all .2s;
-    }
-    .btn-secondary:hover { border-color: var(--indigo); color: var(--indigo); }
+/* ── INSTALL BANNER ─────────────────────────────────────── */
+#installBanner {
+  display: none;
+  position: fixed; bottom: calc(72px + var(--safe-bottom) + 8px);
+  left: 12px; right: 12px; z-index: 200;
+  background: var(--text); color: #fff;
+  border-radius: 16px; padding: 14px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  align-items: center; gap: 12px;
+}
+#installBanner.show { display: flex; }
+.ib-icon { font-size: 28px; flex-shrink: 0; }
+.ib-text { flex: 1; font-size: 13px; line-height: 1.4; }
+.ib-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.ib-btns { display: flex; gap: 8px; }
+.ib-btn-install {
+  background: var(--indigo); color: #fff;
+  border-radius: 8px; padding: 8px 14px;
+  font-size: 13px; font-weight: 700; white-space: nowrap;
+}
+.ib-btn-close {
+  background: rgba(255,255,255,.15); color: #fff;
+  border-radius: 8px; padding: 8px 10px; font-size: 13px;
+}
 
-    /* Hero pricing note */
-    .hero-pricing {
-      display: flex; justify-content: center; gap: 20px;
-      font-size: 13px; color: var(--muted); flex-wrap: wrap;
-    }
-    .hero-pricing span::before { content: '✓ '; color: var(--green); font-weight: 700; }
+/* ── TOP NAV ────────────────────────────────────────────── */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: var(--safe-top);
+}
+.nav-logo { display: flex; align-items: center; gap: 9px; }
+.nav-icon-wrap {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.nav-name { font-size: 16px; font-weight: 800; color: var(--text); }
+.nav-cta {
+  background: var(--indigo); color: #fff;
+  border-radius: 9px; padding: 8px 14px;
+  font-size: 13px; font-weight: 700;
+}
 
-    /* ── STEP FLOW ── */
-    .steps-section { padding: 72px 5vw; background: var(--white); }
-    .section-label {
-      text-align: center; font-size: 12px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--indigo);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      text-align: center; font-size: clamp(24px, 4vw, 36px);
-      font-weight: 800; color: var(--text); margin-bottom: 8px;
-    }
-    .section-sub { text-align: center; font-size: 16px; color: var(--muted); margin-bottom: 52px; }
-    .steps-row {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 0; position: relative;
-    }
-    .steps-row::before {
-      content: ''; position: absolute; top: 32px; left: 10%; right: 10%;
-      height: 2px; background: linear-gradient(90deg, var(--indigo), var(--purple));
-      z-index: 0;
-    }
-    .step-card { text-align: center; padding: 0 12px; position: relative; z-index: 1; }
-    .step-num {
-      width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 16px;
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      color: #fff; font-size: 22px; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(79,70,229,.35);
-    }
-    .step-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+/* ── BOTTOM TAB BAR ─────────────────────────────────────── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding-bottom: var(--safe-bottom);
+  height: calc(72px + var(--safe-bottom));
+}
+.bn-tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; padding: 8px 4px; cursor: pointer;
+  border: none; background: none; font-family: inherit;
+  color: var(--muted); transition: color .15s; -webkit-tap-highlight-color: transparent;
+}
+.bn-tab.active { color: var(--indigo); }
+.bn-icon { font-size: 22px; line-height: 1; }
+.bn-label { font-size: 10px; font-weight: 600; letter-spacing: .2px; }
+.bn-pip {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--indigo); display: none; margin-top: -2px;
+}
+.bn-tab.active .bn-pip { display: block; }
 
-    /* ── FEATURES ── */
-    .features { padding: 72px 5vw; background: var(--surface); }
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px; max-width: 1100px; margin: 0 auto;
-    }
-    .feat-card {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 16px; padding: 28px; transition: all .2s;
-    }
-    .feat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(79,70,229,.12); border-color: #C7D2FE; }
-    .feat-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 18px;
-    }
-    .fi-indigo { background: #EEF2FF; }
-    .fi-teal   { background: #F0FDFA; }
-    .fi-purple { background: #F5F3FF; }
-    .fi-amber  { background: #FFFBEB; }
-    .fi-green  { background: #F0FDF4; }
-    .fi-blue   { background: #EFF6FF; }
-    .feat-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-    .feat-desc  { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
-    .feat-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
-    .feat-tag {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 3px 10px; font-size: 11px;
-      font-weight: 600; color: var(--muted);
-    }
+/* ── PAGES ──────────────────────────────────────────────── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
 
-    /* ── PRICING ── */
-    .pricing { padding: 72px 5vw; background: var(--white); }
-    .pricing-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px; max-width: 900px; margin: 0 auto;
-    }
-    .price-card {
-      border: 2px solid var(--border); border-radius: 20px;
-      padding: 28px; position: relative; transition: all .2s;
-    }
-    .price-card:hover { border-color: var(--indigo); box-shadow: 0 8px 30px rgba(79,70,229,.12); }
-    .price-card.featured {
-      border-color: var(--indigo); background: linear-gradient(160deg, #EEF2FF, #F5F3FF);
-    }
-    .price-badge {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      color: #fff; border-radius: 20px; padding: 4px 14px;
-      font-size: 11px; font-weight: 700; letter-spacing: .5px;
-    }
-    .price-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .price-note { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-    .price-amount { font-size: 36px; font-weight: 800; color: var(--text); }
-    .price-amount sub { font-size: 14px; font-weight: 500; color: var(--muted); vertical-align: baseline; }
-    .price-usd { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-    .price-feats { list-style: none; margin-bottom: 24px; }
-    .price-feats li {
-      font-size: 13px; color: var(--text2); padding: 5px 0;
-      display: flex; gap: 8px; align-items: flex-start;
-    }
-    .price-feats li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-    .price-feats li.no::before { content: '–'; color: var(--muted); }
-    .price-btn {
-      display: block; width: 100%; text-align: center;
-      background: var(--indigo); color: #fff; border-radius: 10px;
-      padding: 12px; font-size: 14px; font-weight: 700;
-      text-decoration: none; transition: all .15s;
-    }
-    .price-btn:hover { background: var(--indigo-dk); }
-    .price-btn.outline {
-      background: transparent; color: var(--indigo);
-      border: 2px solid var(--indigo);
-    }
-    .price-btn.outline:hover { background: var(--indigo); color: #fff; }
+/* ── HERO (Home) ────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 50%, #F0FDF4 100%);
+  padding: 40px 20px 48px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,70,229,.08), transparent);
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--indigo-lt); border: 1px solid var(--c7d2fe);
+  border-radius: 20px; padding: 5px 13px;
+  font-size: 12px; font-weight: 600; color: var(--indigo); margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 32px; font-weight: 800;
+  color: var(--text); line-height: 1.15; letter-spacing: -.5px; margin-bottom: 14px;
+}
+.hero h1 span { color: var(--indigo); }
+.hero-sub {
+  font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.7;
+}
+.hero-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; border-radius: 12px; padding: 14px 24px;
+  font-size: 15px; font-weight: 700; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(79,70,229,.35);
+}
+.btn-secondary {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--white); color: var(--indigo);
+  border: 2px solid var(--indigo); border-radius: 12px;
+  padding: 13px 24px; font-size: 15px; font-weight: 700; text-decoration: none;
+}
+.hero-chips {
+  display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-bottom: 20px;
+}
+.hero-chip {
+  background: rgba(255,255,255,.7); border: 1px solid rgba(79,70,229,.2);
+  border-radius: 20px; padding: 4px 12px; font-size: 12px;
+  font-weight: 600; color: var(--text);
+}
+.safe-note {
+  display: flex; align-items: flex-start; gap: 9px; text-align: left;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(79,70,229,.15);
+  border-radius: 12px; padding: 12px 14px; font-size: 12px;
+  color: var(--muted); line-height: 1.6;
+}
+.safe-note strong { color: var(--text); }
 
-    /* ── HOW IT WORKS (flow diagram) ── */
-    .how { padding: 72px 5vw; background: var(--surface); }
-    .flow {
-      max-width: 700px; margin: 0 auto;
-      display: flex; flex-direction: column; gap: 0;
-    }
-    .flow-item { display: flex; gap: 20px; position: relative; }
-    .flow-left {
-      display: flex; flex-direction: column; align-items: center;
-      flex-shrink: 0; width: 48px;
-    }
-    .flow-dot {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      color: #fff; font-size: 18px; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; box-shadow: 0 3px 12px rgba(79,70,229,.3);
-    }
-    .flow-line {
-      flex: 1; width: 2px; background: linear-gradient(var(--indigo), rgba(79,70,229,.1));
-      margin: 4px 0;
-    }
-    .flow-right { padding-bottom: 32px; }
-    .flow-right h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .flow-right p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+/* ── SECTION COMMONS ────────────────────────────────────── */
+.section { padding: 44px 20px; }
+.section-label {
+  font-size: 12px; font-weight: 700; color: var(--indigo);
+  text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
+}
+.section-title {
+  font-size: 26px; font-weight: 800; color: var(--text);
+  line-height: 1.2; margin-bottom: 10px; letter-spacing: -.3px;
+}
+.section-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+.section-alt { background: var(--surface); }
 
-    /* ── COUNTRIES ── */
-    .countries { padding: 56px 5vw; background: linear-gradient(135deg, var(--indigo), var(--purple)); }
-    .countries h2 { color: #fff; text-align: center; font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-    .countries p  { color: rgba(255,255,255,.75); text-align: center; margin-bottom: 32px; }
-    .flag-grid {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
-      max-width: 800px; margin: 0 auto;
-    }
-    .flag-chip {
-      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
-      border-radius: 20px; padding: 6px 14px; font-size: 13px; color: #fff;
-      font-weight: 500;
-    }
+/* ── STEP CARDS ─────────────────────────────────────────── */
+.steps-scroll {
+  display: flex; gap: 12px; overflow-x: auto;
+  padding-bottom: 12px; margin: 0 -20px; padding-left: 20px; padding-right: 20px;
+  scrollbar-width: none;
+}
+.steps-scroll::-webkit-scrollbar { display: none; }
+.step-card {
+  flex-shrink: 0; width: 200px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px 16px;
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; font-size: 15px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+.step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 40px 5vw; border-top: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 9px; }
-    .footer-logo {
-      width: 28px; height: 28px; border-radius: 7px;
-      background: linear-gradient(135deg, var(--indigo), var(--purple));
-      display: flex; align-items: center; justify-content: center;
-    }
-    .footer-name { font-size: 14px; font-weight: 700; color: var(--text); }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
-    .footer-links a:hover { color: var(--indigo); }
-    .footer-copy { font-size: 12px; color: var(--muted); }
+/* ── FEATURE CARDS ──────────────────────────────────────── */
+.feat-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; margin-bottom: 12px;
+}
+.feat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 12px;
+}
+.fi-indigo { background: var(--indigo-lt); }
+.fi-purple { background: var(--purple-lt); }
+.fi-teal   { background: #CCFBF1; }
+.fi-amber  { background: #FEF3C7; }
+.fi-green  { background: #DCFCE7; }
+.fi-blue   { background: #DBEAFE; }
+.feat-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.feat-desc  { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; }
+.feat-tags  { display: flex; flex-wrap: wrap; gap: 6px; }
+.feat-tag {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 11px; font-weight: 600; color: var(--text2);
+}
 
-    @media (max-width: 640px) {
-      .steps-row::before { display: none; }
-      .nav-links { display: none; }
-      footer { flex-direction: column; text-align: center; }
-    }
-  </style>
+/* ── PRICING ────────────────────────────────────────────── */
+.price-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 24px 20px; margin-bottom: 16px;
+  position: relative;
+}
+.price-card.featured {
+  background: linear-gradient(160deg, var(--indigo-lt), var(--purple-lt));
+  border-color: var(--indigo); border-width: 2px;
+  box-shadow: 0 8px 32px rgba(79,70,229,.15);
+}
+.price-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; border-radius: 20px; padding: 4px 16px;
+  font-size: 11px; font-weight: 700; letter-spacing: .5px; white-space: nowrap;
+}
+.price-name { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.price-note { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.price-amount {
+  font-size: 44px; font-weight: 800; color: var(--text);
+  line-height: 1; margin-bottom: 4px; letter-spacing: -1px;
+}
+.price-amount sub { font-size: 16px; font-weight: 500; vertical-align: baseline; margin-left: 4px; }
+.price-usd { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.price-feats { list-style: none; margin-bottom: 20px; }
+.price-feats li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 0; border-bottom: 1px solid rgba(0,0,0,.05);
+  font-size: 14px; color: var(--text2);
+}
+.price-feats li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.price-feats li.no { color: var(--muted); }
+.price-feats li.no::before { content: '—'; color: var(--border); }
+.price-btn {
+  display: block; text-align: center;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; border-radius: 12px; padding: 14px;
+  font-size: 15px; font-weight: 700; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(79,70,229,.3);
+}
+.price-btn.outline {
+  background: var(--white); color: var(--indigo);
+  border: 2px solid var(--indigo); box-shadow: none;
+}
+.price-note-bottom {
+  font-size: 12px; color: var(--muted); text-align: center;
+  line-height: 1.7; margin-top: 8px;
+}
+
+/* ── COUNTRIES ──────────────────────────────────────────── */
+.flag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.flag-chip {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 12px;
+  font-size: 13px; font-weight: 600; color: var(--text2);
+}
+
+/* ── PREP PAGE ──────────────────────────────────────────── */
+.prep-hero {
+  background: linear-gradient(160deg, var(--indigo-lt), var(--purple-lt));
+  padding: 32px 20px; text-align: center;
+}
+.prep-hero h2 { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.prep-hero p  { font-size: 14px; color: var(--muted); }
+
+.plan-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px; margin-bottom: 12px;
+}
+.plan-week {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.pw-num {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; font-size: 13px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.pw-info h4 { font-size: 15px; font-weight: 700; color: var(--text); }
+.pw-info p  { font-size: 12px; color: var(--muted); }
+.pw-tasks   { display: flex; flex-direction: column; gap: 6px; }
+.pw-task {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--surface); border-radius: 8px; padding: 8px 10px;
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+}
+.pw-task::before { content: '▸'; color: var(--indigo); flex-shrink: 0; font-size: 10px; margin-top: 2px; }
+
+.bq-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-left: 4px solid var(--purple);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+}
+.bq-label { font-size: 10px; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+.bq-q     { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.bq-hint  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+.prompt-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+}
+.pc-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.pc-icon { font-size: 20px; }
+.pc-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.pc-desc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.pc-actions { display: flex; gap: 8px; }
+.pc-btn-copy {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 12px;
+  font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer;
+}
+.pc-btn-open {
+  flex: 1; background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; border-radius: 8px; padding: 7px 12px;
+  font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; border: none;
+}
+
+/* ── ACTIVATE PAGE ──────────────────────────────────────── */
+.activate-hero {
+  background: linear-gradient(160deg, var(--indigo-lt), var(--purple-lt));
+  padding: 40px 24px; text-align: center;
+}
+.activate-hero h2 { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.activate-hero p  { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+.key-input-wrap {
+  background: var(--white); border: 2px solid var(--border);
+  border-radius: 14px; padding: 16px; margin-bottom: 14px;
+  transition: border-color .2s;
+}
+.key-input-wrap:focus-within { border-color: var(--indigo); }
+.key-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.key-input {
+  width: 100%; font-size: 16px; font-weight: 700; color: var(--text);
+  border: none; outline: none; font-family: 'Courier New', monospace;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.key-input::placeholder { color: var(--border); font-weight: 400; letter-spacing: 0; }
+
+.btn-activate {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, var(--indigo), var(--purple));
+  color: #fff; border-radius: 14px; font-size: 16px; font-weight: 700;
+  cursor: pointer; border: none; font-family: inherit;
+  box-shadow: 0 4px 14px rgba(79,70,229,.35);
+}
+.btn-activate:active { transform: scale(.98); }
+
+.status-card {
+  border-radius: 14px; padding: 16px; margin-top: 14px; display: none;
+}
+.status-card.success { background: #DCFCE7; border: 1.5px solid #86EFAC; }
+.status-card.error   { background: #FEE2E2; border: 1.5px solid #FCA5A5; }
+.status-card.show    { display: block; }
+.sc-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.sc-title.success { color: var(--green); }
+.sc-title.error   { color: var(--red); }
+.sc-body  { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+.plan-status-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: center;
+}
+.psc-icon  { font-size: 40px; margin-bottom: 8px; }
+.psc-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.psc-sub   { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.psc-badge {
+  display: inline-block; padding: 5px 16px; border-radius: 20px;
+  font-size: 12px; font-weight: 700;
+}
+.psc-badge.base   { background: var(--indigo-lt); color: var(--indigo); }
+.psc-badge.bundle { background: var(--purple-lt); color: var(--purple); }
+.psc-badge.none   { background: var(--surface); color: var(--muted); }
+
+.feature-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.feature-row:last-child { border-bottom: none; }
+.fr-left  { display: flex; align-items: center; gap: 10px; color: var(--text2); }
+.fr-icon  { font-size: 16px; }
+.fr-check { font-size: 16px; }
+.fr-check.yes  { color: var(--green); }
+.fr-check.no   { color: var(--border); }
+.fr-check.lock { color: var(--amber); }
+
+/* ── SUPPORT PAGE ───────────────────────────────────────── */
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0; font-size: 15px; font-weight: 600; color: var(--text);
+  cursor: pointer; background: none; border: none; font-family: inherit; text-align: left;
+}
+.faq-arrow { font-size: 18px; color: var(--muted); transition: transform .2s; flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  display: none; padding: 0 0 16px;
+  font-size: 14px; color: var(--muted); line-height: 1.8;
+}
+.faq-item.open .faq-a { display: block; }
+
+.contact-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px; margin-bottom: 10px; text-decoration: none;
+}
+.cc-icon { font-size: 24px; }
+.cc-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.cc-sub   { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cc-arrow { margin-left: auto; color: var(--muted); font-size: 18px; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.mini-footer {
+  text-align: center; padding: 32px 20px;
+  font-size: 12px; color: var(--muted);
+  background: var(--surface); border-top: 1px solid var(--border);
+}
+.mini-footer a { color: var(--indigo); font-weight: 600; }
+
+/* ── UTILITY ────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--indigo-lt); border: 1px solid var(--c7d2fe);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 12px; font-weight: 600; color: var(--indigo);
+}
+.section-divider {
+  display: flex; align-items: center; gap: 12px; margin: 24px 0 16px;
+}
+.sd-line { flex: 1; height: 1px; background: var(--border); }
+.sd-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; }
+
+/* ── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.page.active .hero, .page.active .section { animation: fadeUp .3s ease-out; }
+
+/* ── TOAST ──────────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: calc(80px + var(--safe-bottom) + 12px);
+  left: 16px; right: 16px; z-index: 300;
+  background: var(--text); color: #fff; border-radius: 12px;
+  padding: 12px 16px; font-size: 13px; font-weight: 600;
+  text-align: center; opacity: 0; transform: translateY(8px);
+  transition: all .25s; pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="/">
-    <div class="nav-icon">
-      <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
+<!-- ── INSTALL BANNER ─────────────────────────────────── -->
+<div id="installBanner">
+  <div class="ib-icon">📲</div>
+  <div class="ib-text">
+    <strong>Add to Home Screen</strong>
+    Install for the full app experience
+  </div>
+  <div class="ib-btns">
+    <button class="ib-btn-install" id="btnInstall">Install</button>
+    <button class="ib-btn-close" id="btnDismissBanner">✕</button>
+  </div>
+</div>
+
+<!-- ── TOP NAV ────────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="nav-logo">
+    <div class="nav-icon-wrap">
+      <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
         <circle cx="11" cy="11" r="8.5" stroke="white" stroke-width="2.2"/>
         <circle cx="11" cy="11" r="2.5" fill="white"/>
         <line x1="11" y1="2.5" x2="11" y2="7" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -290,199 +526,236 @@
       </svg>
     </div>
     <span class="nav-name">JobHunter Global</span>
-  </a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#how">How it works</a>
-    <a href="#pricing">Pricing</a>
-    <a href="privacy-policy.html">Privacy</a>
   </div>
   <a class="nav-cta" href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">
-    Add to Chrome — Free
+    Get Extension
   </a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <svg width="14" height="14" viewBox="0 0 20 20" fill="#4F46E5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
-    Free to download · Chrome Extension · India & Worldwide
-  </div>
-  <h1>Your AI-powered<br/><span>job search assistant</span></h1>
-  <p class="hero-sub">
-    Search 40+ job sites across 50 countries, get your resume tailored by an AI Hiring Manager,
-    autofill every application, and track every job you've applied to — all from one Chrome extension.
-  </p>
-  <div class="hero-btns">
-    <a class="btn-primary" href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-6h2V8h-2v8zm0-10h2V4h-2v2z"/></svg>
-      Add to Chrome — Free
-    </a>
-    <a class="btn-secondary" href="#how">
-      See how it works →
-    </a>
-  </div>
-  <div class="hero-pricing">
-    <span>Base access ₹450 · 6 months</span>
-    <span>Bundle ₹750 · Job Search + Interview Coaching · 12 months</span>
-    <span>AI uses your free Anthropic API key · ~₹0.80 per resume</span>
-    <span>No subscription · No credits to buy</span>
-  </div>
-  <div style="margin-top:14px;display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 16px;max-width:520px;margin-left:auto;margin-right:auto;text-align:left;">
-    <span style="font-size:18px;flex-shrink:0;">🛡️</span>
-    <div style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6;">
-      <strong style="color:#fff;">Chrome may show a "Proceed with caution" notice.</strong>
-      This appears on all newly published extensions until they reach a usage threshold — it is not a security issue.
-      Click <strong style="color:#fff;">"Continue to install"</strong> to proceed.
-      The extension collects no personal data and makes no external calls except to Anthropic's API when you click "Tailor Resume".
-    </div>
-  </div>
-</section>
+<!-- ══════════════════════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
 
-<!-- STEP FLOW -->
-<section class="steps-section" id="how">
-  <div class="section-label">The Workflow</div>
-  <h2 class="section-title">5 steps to your next role</h2>
-  <p class="section-sub">Each step builds on the last — no tab switching, no copy-pasting, no friction.</p>
-  <div class="steps-row">
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <div class="step-title">Search</div>
-      <div class="step-desc">Pick your country, select job sites, enter your role. One click searches all simultaneously.</div>
+  <section class="hero">
+    <div class="hero-badge">
+      <svg width="12" height="12" viewBox="0 0 20 20" fill="#4F46E5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+      Free to download · Chrome Extension · India & Worldwide
     </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <div class="step-title">Tailor Resume</div>
-      <div class="step-desc">Upload your resume. AI rewrites it from a Hiring Manager's perspective with skills grouped for the JD.</div>
+    <h1>Your AI-powered<br/><span>job search assistant</span></h1>
+    <p class="hero-sub">Search 40+ job sites across 50 countries, tailor your resume with AI, autofill every application, and track every job you've applied to.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        Add to Chrome — Free
+      </a>
+      <button class="btn-secondary" onclick="switchPage('pricing')">View Pricing →</button>
     </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <div class="step-title">Prep</div>
-      <div class="step-desc">Get company-specific interview questions, puzzles, hackathon links, and salary benchmarks.</div>
+    <div class="hero-chips">
+      <span class="hero-chip">🔍 40+ Job Boards</span>
+      <span class="hero-chip">🌍 50 Countries</span>
+      <span class="hero-chip">✨ AI Resume</span>
+      <span class="hero-chip">⚡ Autofill</span>
     </div>
-    <div class="step-card">
-      <div class="step-num">4</div>
-      <div class="step-title">Autofill</div>
-      <div class="step-desc">One click fills name, email, phone, location, skills, experience across Naukri, LinkedIn, Indeed and more.</div>
+    <div class="safe-note">
+      <span>🛡️</span>
+      <div><strong>Chrome may show "Proceed with caution"</strong> — this appears on all new extensions until they reach a usage threshold. Click "Continue to install" to proceed safely.</div>
     </div>
-    <div class="step-card">
-      <div class="step-num">5</div>
-      <div class="step-title">Track</div>
-      <div class="step-desc">Every application is automatically logged with date, status and listing link. Update as you progress.</div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="section-label">The Workflow</div>
+    <h2 class="section-title">5 steps to your next role</h2>
+    <p class="section-sub">No tab switching, no copy-pasting, no friction.</p>
+    <div class="steps-scroll">
+      <div class="step-card"><div class="step-num">1</div><div class="step-title">Search</div><div class="step-desc">Pick your country, select job sites, enter your role. One click searches all simultaneously.</div></div>
+      <div class="step-card"><div class="step-num">2</div><div class="step-title">Tailor Resume</div><div class="step-desc">Upload your resume. AI rewrites it from a Hiring Manager's perspective with ATS keywords.</div></div>
+      <div class="step-card"><div class="step-num">3</div><div class="step-title">Prep</div><div class="step-desc">Get a 4-week training plan, STAR answer bank, and company intelligence guide.</div></div>
+      <div class="step-card"><div class="step-num">4</div><div class="step-title">Autofill</div><div class="step-desc">One click fills your profile across Naukri, LinkedIn, Indeed, Lever and more.</div></div>
+      <div class="step-card"><div class="step-num">5</div><div class="step-title">Track</div><div class="step-desc">Every application is auto-logged with date, status and listing link.</div></div>
     </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section section-alt">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything in one extension</h2>
+    <p class="section-sub">No juggling between tabs, tools, or spreadsheets.</p>
+
+    <div class="feat-card"><div class="feat-icon fi-indigo">🔍</div><div class="feat-title">Multi-Site Job Search</div><div class="feat-desc">Naukri, LinkedIn, Indeed, Glassdoor, Seek, Bayt, JobStreet, Reed, Wellfound and 30+ more. Each site gets its own result card with a direct apply link.</div><div class="feat-tags"><span class="feat-tag">50 countries</span><span class="feat-tag">40+ boards</span><span class="feat-tag">Company portals</span></div></div>
+
+    <div class="feat-card"><div class="feat-icon fi-purple">✨</div><div class="feat-title">AI Resume Tailoring</div><div class="feat-desc">Upload your PDF or DOCX. The AI rewrites it from a Senior Hiring Manager's perspective — grouped skills, surfaced certifications, ATS keywords, and a 0–100 shortlisting score.</div><div class="feat-tags"><span class="feat-tag">HM scoring</span><span class="feat-tag">Skills grouped</span><span class="feat-tag">ATS keywords</span></div></div>
+
+    <div class="feat-card"><div class="feat-icon fi-teal">⚡</div><div class="feat-title">One-Click Autofill</div><div class="feat-desc">Saves your profile and writes it to job application forms automatically. Works on React-based SPAs including Lever, Greenhouse, Workday and more.</div><div class="feat-tags"><span class="feat-tag">React-compatible</span><span class="feat-tag">SPA-aware</span><span class="feat-tag">Floating button</span></div></div>
+
+    <div class="feat-card"><div class="feat-icon fi-amber">🧠</div><div class="feat-title">Interview Prep (Bundle)</div><div class="feat-desc">4-week training plan, behavioral STAR answer bank, company intelligence guide, technical topics, salary negotiation scripts — all powered by Claude AI on your free account.</div><div class="feat-tags"><span class="feat-tag">4-week plan</span><span class="feat-tag">STAR bank</span><span class="feat-tag">Company intel</span></div></div>
+
+    <div class="feat-card"><div class="feat-icon fi-green">📋</div><div class="feat-title">Application Tracker</div><div class="feat-desc">Every job you apply to is automatically logged with date, status, and listing URL. Update as you progress through rounds with a full stats dashboard.</div><div class="feat-tags"><span class="feat-tag">Auto-logged</span><span class="feat-tag">Status tracking</span><span class="feat-tag">Stats</span></div></div>
+
+    <div class="feat-card"><div class="feat-icon fi-blue">🔒</div><div class="feat-title">Private by Design</div><div class="feat-desc">All data stored only on your device using Chrome's secure local storage. The only external call is the Anthropic API when you click "Tailor Resume".</div><div class="feat-tags"><span class="feat-tag">Local storage</span><span class="feat-tag">No accounts</span><span class="feat-tag">No tracking</span></div></div>
+  </section>
+
+  <!-- Countries -->
+  <section class="section">
+    <div class="section-label">Coverage</div>
+    <h2 class="section-title">Works across 50+ countries</h2>
+    <p class="section-sub">Each country has its own curated set of job boards and company career portals.</p>
+    <div class="flag-grid">
+      <span class="flag-chip">🇮🇳 India</span><span class="flag-chip">🇦🇪 UAE</span>
+      <span class="flag-chip">🇸🇬 Singapore</span><span class="flag-chip">🇦🇺 Australia</span>
+      <span class="flag-chip">🇬🇧 UK</span><span class="flag-chip">🇺🇸 USA</span>
+      <span class="flag-chip">🇨🇦 Canada</span><span class="flag-chip">🇩🇪 Germany</span>
+      <span class="flag-chip">🇸🇦 Saudi Arabia</span><span class="flag-chip">🇫🇷 France</span>
+      <span class="flag-chip">🇳🇱 Netherlands</span><span class="flag-chip">🇯🇵 Japan</span>
+      <span class="flag-chip">🇲🇾 Malaysia</span><span class="flag-chip">🇵🇭 Philippines</span>
+      <span class="flag-chip">🇳🇿 New Zealand</span><span class="flag-chip">🇿🇦 South Africa</span>
+      <span class="flag-chip">🇳🇬 Nigeria</span><span class="flag-chip">🇧🇷 Brazil</span>
+      <span class="flag-chip">🌍 Remote</span>
+    </div>
+  </section>
+
+  <footer class="mini-footer">
+    <div style="margin-bottom:10px">
+      <a href="privacy-policy.html">Privacy Policy</a> ·
+      <a href="support.html">Support</a> ·
+      <a href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">Chrome Store</a>
+    </div>
+    © 2025 JobHunter Global
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE: PREP GUIDE
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-prep">
+  <div class="prep-hero">
+    <div class="chip" style="margin-bottom:14px">🎓 Bundle Feature</div>
+    <h2>Interview Prep Guide</h2>
+    <p>Your personalised coaching system powered by Claude AI (free plan)</p>
   </div>
-</section>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-  <div class="section-label">Features</div>
-  <h2 class="section-title">Everything in one extension</h2>
-  <p class="section-sub">No juggling between tabs, tools, or spreadsheets.</p>
-  <div class="features-grid">
+  <div class="section">
+    <div class="section-label">4-Week Training Plan</div>
+    <h2 class="section-title" style="font-size:20px">Day-by-day prep schedule</h2>
+    <p class="section-sub">Generated from the job description you analyse in the extension.</p>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-indigo">🔍</div>
-      <div class="feat-title">Multi-Site Job Search</div>
-      <div class="feat-desc">Select any combination of Naukri, LinkedIn, Indeed, Glassdoor, Seek, Bayt, JobStreet, Reed, StepStone, Wellfound and 30+ more. Each selected site gets its own result card with a direct apply link.</div>
-      <div class="feat-tags">
-        <span class="feat-tag">50 countries</span>
-        <span class="feat-tag">40+ job boards</span>
-        <span class="feat-tag">Company portals</span>
+    <div class="plan-card">
+      <div class="plan-week"><div class="pw-num">W1</div><div class="pw-info"><h4>Technical Foundations</h4><p>Build core knowledge for the role</p></div></div>
+      <div class="pw-tasks">
+        <div class="pw-task">Day 1: Review the job description — list every required skill and tool</div>
+        <div class="pw-task">Day 2: Study the top 2 technical skills from the JD (videos + docs)</div>
+        <div class="pw-task">Day 3: Build a small project or exercise using those skills</div>
+        <div class="pw-task">Day 4: Review common system design patterns for this role</div>
+        <div class="pw-task">Day 5: Take 1 mock test on the role's core technology</div>
       </div>
     </div>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-purple">✨</div>
-      <div class="feat-title">AI Resume Tailoring</div>
-      <div class="feat-desc">Upload your PDF or DOCX resume. The AI rewrites it from a Senior Hiring Manager's perspective — grouped skills, surfaced certifications, ATS keywords, and a 0–100 shortlisting score with honest feedback.</div>
-      <div class="feat-tags">
-        <span class="feat-tag">HM scoring</span>
-        <span class="feat-tag">Skills grouped</span>
-        <span class="feat-tag">ATS keywords</span>
-        <span class="feat-tag">Certs surfaced</span>
+    <div class="plan-card">
+      <div class="plan-week"><div class="pw-num">W2</div><div class="pw-info"><h4>Company Deep-Dive</h4><p>Research the company thoroughly</p></div></div>
+      <div class="pw-tasks">
+        <div class="pw-task">Day 1: Read the company's About, Mission, and recent news</div>
+        <div class="pw-task">Day 2: Study their products, tech stack, and competitors</div>
+        <div class="pw-task">Day 3: Read Glassdoor reviews — find culture signals</div>
+        <div class="pw-task">Day 4: Prepare your "Why this company?" answer (3 specific reasons)</div>
+        <div class="pw-task">Day 5: Prepare 5 intelligent questions to ask the interviewer</div>
       </div>
     </div>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-teal">⚡</div>
-      <div class="feat-title">One-Click Autofill</div>
-      <div class="feat-desc">Saves your profile (name, email, phone, location, skills, experience, LinkedIn) and writes it to job application forms automatically. Works on Naukri, LinkedIn Easy Apply, Indeed, Lever, Greenhouse and more.</div>
-      <div class="feat-tags">
-        <span class="feat-tag">React-compatible</span>
-        <span class="feat-tag">Floating button</span>
-        <span class="feat-tag">SPA-aware</span>
+    <div class="plan-card">
+      <div class="plan-week"><div class="pw-num">W3</div><div class="pw-info"><h4>Interview Practice</h4><p>Behavioral and technical mock rounds</p></div></div>
+      <div class="pw-tasks">
+        <div class="pw-task">Day 1: Write STAR answers for 5 behavioral questions</div>
+        <div class="pw-task">Day 2: Record yourself answering — review for filler words</div>
+        <div class="pw-task">Day 3: Technical mock interview (use Pramp or interviewing.io)</div>
+        <div class="pw-task">Day 4: Case study or scenario practice (role-specific)</div>
+        <div class="pw-task">Day 5: Full mock interview with a friend or mentor</div>
       </div>
     </div>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-amber">🧠</div>
-      <div class="feat-title">Interview Prep</div>
-      <div class="feat-desc">After tailoring your resume, get a personalised prep guide: 5 HM interview questions, what hiring managers watch for in your role, hackathons to compete in, aptitude test simulators, and mock interview platforms.</div>
-      <div class="feat-tags">
-        <span class="feat-tag">Company-specific</span>
-        <span class="feat-tag">Hackathons</span>
-        <span class="feat-tag">Stress tests</span>
-        <span class="feat-tag">Salary intel</span>
+    <div class="plan-card">
+      <div class="plan-week"><div class="pw-num">W4</div><div class="pw-info"><h4>Polish & Simulate</h4><p>Final prep and confidence building</p></div></div>
+      <div class="pw-tasks">
+        <div class="pw-task">Day 1: Final resume review — ensure it matches the JD keywords</div>
+        <div class="pw-task">Day 2: Research salary range — prepare your negotiation number</div>
+        <div class="pw-task">Day 3: Full simulation — 60-min mock with timer</div>
+        <div class="pw-task">Day 4: Rest and light review of your notes</div>
+        <div class="pw-task">Day 5: Interview day — checklist below ✅</div>
       </div>
     </div>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-green">📋</div>
-      <div class="feat-title">Application Tracker</div>
-      <div class="feat-desc">Every job you apply to is automatically logged with date, status, and listing URL. Update status as you progress through rounds — Applied → Interviewing → Offered. Full history with quick-filter and stats dashboard.</div>
-      <div class="feat-tags">
-        <span class="feat-tag">Auto-logged</span>
-        <span class="feat-tag">Status tracking</span>
-        <span class="feat-tag">Listing links</span>
-        <span class="feat-tag">Stats dashboard</span>
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Behavioral Questions</div><div class="sd-line"></div></div>
+
+    <div class="bq-card"><div class="bq-label">BQ 1 — Leadership</div><div class="bq-q">Tell me about a time you led a team through a difficult situation.</div><div class="bq-hint">STAR: Set the scene (2 sentences) → Your specific task → 3 concrete actions you took → Quantified result + lesson</div></div>
+    <div class="bq-card"><div class="bq-label">BQ 2 — Failure</div><div class="bq-q">Tell me about a time you failed and what you learned.</div><div class="bq-hint">STAR: Be honest about the failure → Take ownership → Show what you changed → Prove you applied the lesson</div></div>
+    <div class="bq-card"><div class="bq-label">BQ 3 — Conflict</div><div class="bq-q">Describe a time you disagreed with a colleague or manager.</div><div class="bq-hint">STAR: Focus on the issue not the person → Show empathy → Explain your approach to resolution → Outcome</div></div>
+    <div class="bq-card"><div class="bq-label">BQ 4 — Delivery</div><div class="bq-q">Tell me about delivering something under a very tight deadline.</div><div class="bq-hint">STAR: Set context → Your specific role → Prioritisation decisions → Metric result (time saved, revenue, etc.)</div></div>
+    <div class="bq-card"><div class="bq-label">BQ 5 — Data-Driven</div><div class="bq-q">Give an example of a decision you made using data.</div><div class="bq-hint">STAR: What data you had → How you analysed it → Decision made → Measurable outcome</div></div>
+
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">AI Claude.ai Prompts</div><div class="sd-line"></div></div>
+
+    <div class="prompt-card">
+      <div class="pc-head"><div class="pc-icon">🗓️</div><div><div class="pc-title">Full 30-Day Training Plan</div><div class="pc-desc">Personalised day-by-day plan for your specific role + company</div></div></div>
+      <div class="pc-actions">
+        <button class="pc-btn-copy" onclick="copyPrompt('training')">📋 Copy</button>
+        <button class="pc-btn-open" onclick="openClaude('training')">Open in Claude AI ↗</button>
       </div>
     </div>
 
-    <div class="feat-card">
-      <div class="feat-icon fi-blue">🔒</div>
-      <div class="feat-title">Private by Design</div>
-      <div class="feat-desc">All your profile data, API keys, and application history are stored only on your device using Chrome's secure local storage. Nothing is transmitted to any server — the only external call is the Anthropic API when you click "Tailor Resume".</div>
-      <div class="feat-tags">
-        <span class="feat-tag">Local storage only</span>
-        <span class="feat-tag">No accounts</span>
-        <span class="feat-tag">No tracking</span>
+    <div class="prompt-card">
+      <div class="pc-head"><div class="pc-icon">🏢</div><div><div class="pc-title">Company Research Guide</div><div class="pc-desc">What to know, say, and ask about the company</div></div></div>
+      <div class="pc-actions">
+        <button class="pc-btn-copy" onclick="copyPrompt('company')">📋 Copy</button>
+        <button class="pc-btn-open" onclick="openClaude('company')">Open in Claude AI ↗</button>
       </div>
     </div>
 
+    <div class="prompt-card">
+      <div class="pc-head"><div class="pc-icon">💰</div><div><div class="pc-title">Salary Negotiation Script</div><div class="pc-desc">Market rate + exact counter-offer scripts</div></div></div>
+      <div class="pc-actions">
+        <button class="pc-btn-copy" onclick="copyPrompt('salary')">📋 Copy</button>
+        <button class="pc-btn-open" onclick="openClaude('salary')">Open in Claude AI ↗</button>
+      </div>
+    </div>
+
+    <div class="section-divider"><div class="sd-line"></div><div class="sd-label">Interview Day Checklist</div><div class="sd-line"></div></div>
+
+    <div id="dayChecklist"></div>
   </div>
-</section>
+</div>
 
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-label">Pricing</div>
-  <h2 class="section-title">One-time purchase, no subscription</h2>
-  <p class="section-sub">Pay once, no subscriptions. Base valid 6 months · Bundle valid 12 months. AI resume tailoring uses your free Anthropic key (~₹0.80/tailor).</p>
-  <div class="pricing-grid">
+<!-- ══════════════════════════════════════════════════════
+     PAGE: PRICING
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <section class="section">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">One-time purchase, no subscription</h2>
+    <p class="section-sub">Pay once. Base valid 6 months · Bundle valid 12 months. AI uses your free Anthropic API key.</p>
 
-    <div class="price-card">
+    <div class="price-card" style="margin-top:24px">
       <div class="price-name">Base Access</div>
-      <div class="price-note">Core features · 6-month access</div>
+      <div class="price-note">Job Search Suite · 6-month access</div>
       <div class="price-amount">₹450 <sub>one-time</sub></div>
       <div class="price-usd">~$5.40 USD</div>
       <ul class="price-feats">
         <li>Search 40+ job boards</li>
         <li>Company career portals</li>
         <li>One-click autofill</li>
-        <li>Interview prep library</li>
-        <li>Hackathons & puzzles</li>
         <li>Application tracker</li>
         <li>Salary benchmarks</li>
         <li>AI resume tailoring (BYOK)</li>
         <li class="no">4-week training plan</li>
-        <li class="no">STAR bank &amp; company intel</li>
+        <li class="no">STAR answer bank</li>
+        <li class="no">Resume builder</li>
       </ul>
-      <a class="price-btn outline" href="https://rzp.io/rzp/0kLOwNk" target="_blank">Get Base Access</a>
+      <a class="price-btn outline" href="https://rzp.io/rzp/0kLOwNk" target="_blank">Get Base Access — ₹450</a>
     </div>
 
-    <div class="price-card featured">
-      <div class="price-badge">BEST VALUE</div>
+    <div class="price-card featured" style="margin-top:28px">
+      <div class="price-badge">★ BEST VALUE</div>
       <div class="price-name">Bundle</div>
-      <div class="price-note">Job Search + Interview Coaching · 12-month access</div>
+      <div class="price-note">Job Search + Interview Coaching · 12 months</div>
       <div class="price-amount">₹750 <sub>one-time</sub></div>
       <div class="price-usd">~$9.00 USD</div>
       <ul class="price-feats">
@@ -490,7 +763,7 @@
         <li>🗓 4-week interview training plan</li>
         <li>🎭 Behavioral STAR answer bank</li>
         <li>🏢 Company intelligence per JD</li>
-        <li>📄 Resume builder · 4 templates</li>
+        <li>📄 Resume builder (4 templates)</li>
         <li>✨ AI training prompts (Claude.ai)</li>
         <li>💰 Salary negotiation intel</li>
         <li>⚡ Valid 12 months (double Base)</li>
@@ -498,63 +771,321 @@
       <a class="price-btn" href="https://rzp.io/rzp/0kLOwNk" target="_blank">Get Bundle — ₹750</a>
     </div>
 
-  <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--muted);">
-    Payments via Razorpay · UPI, cards & net banking · Licence key emailed immediately after payment.<br/>
-    Base valid 6 months · Bundle valid 12 months + interview coaching · AI resume tailoring uses your free Anthropic key (~₹0.80/tailor) · No subscriptions
-  </p>
-</section>
+    <p class="price-note-bottom">
+      Payments via Razorpay · UPI, cards &amp; net banking<br/>
+      Licence key emailed immediately · No recurring fees
+    </p>
+  </section>
+</div>
 
-<!-- COUNTRIES -->
-<section class="countries">
-  <h2>Works across 50+ countries</h2>
-  <p>Each country has its own curated set of job boards and company career portals</p>
-  <div class="flag-grid">
-    <span class="flag-chip">🇮🇳 India</span>
-    <span class="flag-chip">🇦🇪 UAE</span>
-    <span class="flag-chip">🇸🇦 Saudi Arabia</span>
-    <span class="flag-chip">🇸🇬 Singapore</span>
-    <span class="flag-chip">🇦🇺 Australia</span>
-    <span class="flag-chip">🇬🇧 UK</span>
-    <span class="flag-chip">🇺🇸 USA</span>
-    <span class="flag-chip">🇨🇦 Canada</span>
-    <span class="flag-chip">🇩🇪 Germany</span>
-    <span class="flag-chip">🇫🇷 France</span>
-    <span class="flag-chip">🇳🇱 Netherlands</span>
-    <span class="flag-chip">🇯🇵 Japan</span>
-    <span class="flag-chip">🇲🇾 Malaysia</span>
-    <span class="flag-chip">🇵🇭 Philippines</span>
-    <span class="flag-chip">🇳🇿 New Zealand</span>
-    <span class="flag-chip">🇿🇦 South Africa</span>
-    <span class="flag-chip">🇳🇬 Nigeria</span>
-    <span class="flag-chip">🇰🇪 Kenya</span>
-    <span class="flag-chip">🇧🇷 Brazil</span>
-    <span class="flag-chip">🇮🇱 Israel</span>
-    <span class="flag-chip">🌍 Remote</span>
+<!-- ══════════════════════════════════════════════════════
+     PAGE: ACTIVATE / ACCOUNT
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-account">
+  <div class="activate-hero">
+    <h2>Activate Your Licence</h2>
+    <p>Enter the licence key from your purchase email to see your plan status and unlock features in the extension.</p>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-brand">
-    <div class="footer-logo">
-      <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-        <circle cx="11" cy="11" r="8.5" stroke="white" stroke-width="2.2"/>
-        <circle cx="11" cy="11" r="2.5" fill="white"/>
-        <line x1="11" y1="2.5" x2="11" y2="7" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="11" y1="15" x2="11" y2="19.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="2.5" y1="11" x2="7" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="15" y1="11" x2="19.5" y2="11" stroke="white" stroke-width="2" stroke-linecap="round"/>
-      </svg>
+  <div class="section">
+    <!-- Plan status card (shows after activation) -->
+    <div class="plan-status-card" id="planStatusCard" style="display:none">
+      <div class="psc-icon" id="planIcon">🎉</div>
+      <div class="psc-title" id="planTitle">Access Active</div>
+      <div class="psc-sub" id="planSub">Your plan details</div>
+      <span class="psc-badge" id="planBadge">Base</span>
     </div>
-    <span class="footer-name">JobHunter Global</span>
-  </div>
-  <div class="footer-links">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="support.html">Support</a>
-    <a href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">Chrome Store</a>
-  </div>
-  <div class="footer-copy">© 2025 JobHunter Global · jobhunterglobalai.github.io</div>
-</footer>
 
+    <!-- Key entry -->
+    <div class="key-input-wrap">
+      <div class="key-label">Licence Key</div>
+      <input class="key-input" id="licenceKeyInput" type="text" placeholder="JHG-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" autocapitalize="characters" spellcheck="false"/>
+    </div>
+    <button class="btn-activate" id="btnActivate">Verify &amp; Activate</button>
+
+    <div class="status-card" id="statusCard">
+      <div class="sc-title" id="statusTitle"></div>
+      <div class="sc-body" id="statusBody"></div>
+    </div>
+
+    <div class="divider" style="margin-top:28px"></div>
+
+    <!-- Feature access table -->
+    <div class="section-label" style="margin-bottom:12px">Feature Access</div>
+    <div id="featureTable">
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">🔍</span> Job Search (40+ boards)</div><span class="fr-check yes" id="fr-search">✓</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">⚡</span> One-Click Autofill</div><span class="fr-check yes" id="fr-autofill">✓</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">📋</span> Application Tracker</div><span class="fr-check yes" id="fr-tracker">✓</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">✨</span> AI Resume Tailoring</div><span class="fr-check yes" id="fr-ai">✓ (add Anthropic key)</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">🗓</span> 4-Week Training Plan</div><span class="fr-check lock" id="fr-training">Bundle only</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">🎭</span> STAR Answer Bank</div><span class="fr-check lock" id="fr-star">Bundle only</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">🏢</span> Company Intel Guide</div><span class="fr-check lock" id="fr-intel">Bundle only</span></div>
+      <div class="feature-row"><div class="fr-left"><span class="fr-icon">📄</span> Resume Builder</div><span class="fr-check lock" id="fr-builder">Bundle only</span></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <p style="font-size:13px;color:var(--muted);text-align:center;line-height:1.7">
+      Don't have a licence yet?<br/>
+      <a href="https://rzp.io/rzp/0kLOwNk" target="_blank" style="color:var(--indigo);font-weight:700">Purchase on Razorpay →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE: SUPPORT
+════════════════════════════════════════════════════════ -->
+<div class="page" id="page-support">
+  <section class="section">
+    <div class="section-label">Help & Support</div>
+    <h2 class="section-title">How can we help?</h2>
+
+    <a class="contact-card" href="mailto:jobhunterglobal@gmail.com">
+      <span class="cc-icon">📧</span>
+      <div><div class="cc-title">Email Support</div><div class="cc-sub">jobhunterglobal@gmail.com · reply within 24hrs</div></div>
+      <span class="cc-arrow">›</span>
+    </a>
+    <a class="contact-card" href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">
+      <span class="cc-icon">⭐</span>
+      <div><div class="cc-title">Leave a Review</div><div class="cc-sub">Help others find JobHunter Global</div></div>
+      <span class="cc-arrow">›</span>
+    </a>
+    <a class="contact-card" href="privacy-policy.html">
+      <span class="cc-icon">🔒</span>
+      <div><div class="cc-title">Privacy Policy</div><div class="cc-sub">How we handle your data</div></div>
+      <span class="cc-arrow">›</span>
+    </a>
+
+    <div class="divider"></div>
+    <div class="section-label" style="margin-bottom:16px">FAQ</div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What is included in Base vs Bundle? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a"><strong>Base (₹450 · 6 months):</strong> Job search across 40+ boards, one-click autofill, application tracker, salary benchmarks, and AI resume tailoring via your own free Anthropic key.<br/><br/><strong>Bundle (₹750 · 12 months):</strong> Everything in Base plus the full interview coaching system — 4-week training plan, STAR answer bank, company intelligence per JD, resume builder with 4 templates, Claude.ai training prompts, and salary negotiation scripts.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I activate my licence key? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">After payment your key (format: JHG-XXXX-XXXX-XXXX) is emailed to you within 2 minutes. Open the extension → paywall screen → tap "Already paid? Restore purchases" → enter your key. Or use the Activate tab in this app to verify your key status.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Do I need my own Anthropic API key? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">For AI resume tailoring in the extension, yes — add your free key from <strong>console.anthropic.com/settings/keys</strong> in the Profile tab. Each tailor costs ~₹0.80 billed directly by Anthropic to your account, not us.<br/><br/>The interview prep Claude.ai prompts open in your free Claude.ai account — no API key needed for those.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">I didn't receive my licence key email. <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">Check your spam folder first. If it's not there within 5 minutes, email <strong>jobhunterglobal@gmail.com</strong> with your Razorpay payment ID (starts with "pay_") and we'll issue your key manually within 24 hours.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I use the extension on multiple devices? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">Yes. Install the extension on any Chrome browser and enter your licence key in the Restore Purchases flow. Your licence is tied to the key, not the device.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What happens when my licence expires? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">Base keys are valid for 6 months, Bundle for 12 months. After expiry the paywall reappears. Renew at ₹450 (Base) anytime — your profile data and application history are preserved on your device.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is my data safe? <span class="faq-arrow">⌄</span></button>
+      <div class="faq-a">All your profile data, API keys, and application history are stored locally on your device using Chrome's secure storage. Nothing is sent to our servers. The only external calls are to Anthropic's API (when you tailor a resume) and our licence verification server (when you activate a key).</div>
+    </div>
+  </section>
+</div>
+
+<!-- ── BOTTOM TAB BAR ────────────────────────────────── -->
+<nav class="bottom-nav">
+  <button class="bn-tab active" data-page="home" onclick="switchPage('home')">
+    <span class="bn-icon">🏠</span>
+    <span class="bn-label">Home</span>
+    <div class="bn-pip"></div>
+  </button>
+  <button class="bn-tab" data-page="prep" onclick="switchPage('prep')">
+    <span class="bn-icon">🧠</span>
+    <span class="bn-label">Prep</span>
+    <div class="bn-pip"></div>
+  </button>
+  <button class="bn-tab" data-page="pricing" onclick="switchPage('pricing')">
+    <span class="bn-icon">💳</span>
+    <span class="bn-label">Pricing</span>
+    <div class="bn-pip"></div>
+  </button>
+  <button class="bn-tab" data-page="account" onclick="switchPage('account')">
+    <span class="bn-icon">🔑</span>
+    <span class="bn-label">Activate</span>
+    <div class="bn-pip"></div>
+  </button>
+  <button class="bn-tab" data-page="support" onclick="switchPage('support')">
+    <span class="bn-icon">❓</span>
+    <span class="bn-label">Help</span>
+    <div class="bn-pip"></div>
+  </button>
+</nav>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ── Page switching ─────────────────────────────────────
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+name)?.classList.add('active');
+  document.querySelector(`[data-page="${name}"]`)?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── FAQ toggle ─────────────────────────────────────────
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── Day-of checklist ───────────────────────────────────
+const checklist = [
+  'Research the interviewer on LinkedIn beforehand',
+  'Re-read the job description one more time',
+  'Prepare 3 copies of your resume (digital + printed)',
+  'Test your internet and camera if it\'s a video call',
+  'Have your STAR stories written on a cheat sheet',
+  'Prepare your "Why this company?" answer',
+  'Know the exact office or call link address',
+  'Arrive / join 5 minutes early',
+  'Bring a notebook and pen for notes',
+  'Send a thank-you email within 2 hours of the interview',
+];
+const cl = document.getElementById('dayChecklist');
+checklist.forEach((item, i) => {
+  const label = document.createElement('label');
+  label.style.cssText = 'display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:14px;color:var(--text2);line-height:1.5';
+  label.innerHTML = `<input type="checkbox" id="cl${i}" style="accent-color:var(--indigo);margin-top:3px;flex-shrink:0"/> ${item}`;
+  label.querySelector('input').addEventListener('change', function() {
+    label.style.color = this.checked ? 'var(--muted)' : 'var(--text2)';
+    label.style.textDecoration = this.checked ? 'line-through' : 'none';
+  });
+  cl.appendChild(label);
+});
+
+// ── Prompts ────────────────────────────────────────────
+const prompts = {
+  training: `Create a detailed, actionable 30-day interview preparation plan for the role I am applying to.\n\nRole: [PASTE ROLE TITLE]\nCompany: [PASTE COMPANY NAME]\nMy background: [DESCRIBE YOUR EXPERIENCE LEVEL]\n\nBuild the plan as follows:\n\nWEEK 1 — Foundation (Days 1-7)\n- Day-by-day tasks for technical skill building\n- Specific topics to study\n- Practice problems with resources\n\nWEEK 2 — Company Deep-Dive (Days 8-14)\n- Company research tasks\n- Products, culture, recent news, competitors\n- Mock Q&A based on their known interview style\n\nWEEK 3 — Interview Practice (Days 15-21)\n- Behavioral question preparation (STAR method)\n- Technical mock interviews\n- Case study or scenario practice if applicable\n\nWEEK 4 — Polish & Simulate (Days 22-30)\n- Full mock interviews\n- Salary negotiation preparation\n- Final review checklist\n\nAlso provide:\n- Top 3 free resources for this role\n- Red flags interviewers watch for\n- Expected salary range in India`,
+
+  company: `I have an interview for [ROLE] at [COMPANY]. Help me prepare thorough company research.\n\n1. Company Overview (what I must know cold)\n- Business model and revenue drivers\n- Key products/services\n- Recent news or strategic moves\n- Culture and values\n\n2. The Role Context\n- What does this team likely own?\n- KPIs this role is probably measured on\n\n3. Competitor Landscape\n- Top 3 competitors and how the company differentiates\n\n4. Interview Questions to Prepare For\n- 8 likely questions based on their culture and the JD\n- Including the "Why this company?" framework\n\n5. Intelligent Questions to Ask\n- 5 questions showing business acumen\n- 1 about the team's current challenges\n- 1 about success metrics for this role`,
+
+  salary: `Help me prepare a salary negotiation strategy for [ROLE] at [COMPANY] in India.\n\n1. Market Rate Research\n- Expected salary range for this role and company level in India\n- How to benchmark (specific sites)\n\n2. Negotiation Strategy\n- When to bring up salary\n- How to answer "What are your salary expectations?" without anchoring low\n- Exact script for making a counter-offer\n- How to negotiate non-salary components (bonus, equity, WFH, learning budget)\n\n3. Scripts for Common Scenarios\n- If they give a low offer: word-for-word response\n- If they say "this is our best offer": word-for-word response\n- If they ask why you deserve more: 3-point justification\n\n4. Walk-Away Analysis\n- Minimum acceptable offer\n- Red flags in the offer`,
+};
+
+function copyPrompt(key) {
+  navigator.clipboard.writeText(prompts[key]).then(() => showToast('✅ Prompt copied!'));
+}
+function openClaude(key) {
+  window.open('https://claude.ai/new?q=' + encodeURIComponent(prompts[key]), '_blank');
+}
+
+// ── Toast ──────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Licence verification ───────────────────────────────
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxlyIkpABmMSJ7WnypjlM-F4zvWQi4J8Qwd1fRPjiSoa9G6mFiEdY6274i_kqNAzcU/exec';
+
+document.getElementById('licenceKeyInput').addEventListener('input', function() {
+  let v = this.value.replace(/[^A-Z0-9]/gi,'').toUpperCase();
+  if (v.length > 4)  v = v.slice(0,4)+'-'+v.slice(4);
+  if (v.length > 9)  v = v.slice(0,9)+'-'+v.slice(9);
+  if (v.length > 14) v = v.slice(0,14)+'-'+v.slice(14);
+  this.value = v;
+});
+
+document.getElementById('btnActivate').addEventListener('click', async () => {
+  const key   = document.getElementById('licenceKeyInput').value.trim().toUpperCase();
+  const btn   = document.getElementById('btnActivate');
+  const sc    = document.getElementById('statusCard');
+  const stTitle = document.getElementById('statusTitle');
+  const stBody  = document.getElementById('statusBody');
+
+  if (!key.match(/^JHG-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/) && !key.match(/^TST-/)) {
+    sc.className='status-card error show';
+    stTitle.className='sc-title error'; stTitle.textContent='Invalid format';
+    stBody.textContent='Key should be in format JHG-XXXX-XXXX-XXXX'; return;
+  }
+
+  btn.textContent='Verifying…'; btn.disabled=true;
+  sc.className='status-card';
+
+  try {
+    const res  = await fetch(`${GAS_URL}?key=${encodeURIComponent(key)}`);
+    const data = await res.json();
+
+    if (data.valid) {
+      const bundle  = data.grants?.bundleUnlocked;
+      const plan    = bundle ? 'Bundle' : 'Base';
+      const expiry  = data.baseExpiry ? new Date(data.baseExpiry).toLocaleDateString('en-IN') : '—';
+
+      sc.className='status-card success show';
+      stTitle.className='sc-title success'; stTitle.textContent='✅ Licence Active';
+      stBody.textContent=`${plan} access confirmed · Valid until ${expiry}`;
+
+      // Show plan card
+      document.getElementById('planStatusCard').style.display='block';
+      document.getElementById('planIcon').textContent  = bundle ? '🚀' : '🔑';
+      document.getElementById('planTitle').textContent = `${plan} Access Active`;
+      document.getElementById('planSub').textContent   = `Valid until ${expiry}`;
+      const badge = document.getElementById('planBadge');
+      badge.textContent=plan; badge.className=`psc-badge ${bundle?'bundle':'base'}`;
+
+      // Update feature table
+      if (bundle) {
+        ['fr-training','fr-star','fr-intel','fr-builder'].forEach(id => {
+          const el=document.getElementById(id);
+          el.textContent='✓'; el.className='fr-check yes';
+        });
+      }
+      showToast(`✅ ${plan} access verified!`);
+    } else {
+      sc.className='status-card error show';
+      stTitle.className='sc-title error'; stTitle.textContent='Key not found';
+      stBody.textContent='This key was not found or has expired. Check your email or contact jobhunterglobal@gmail.com';
+    }
+  } catch(e) {
+    sc.className='status-card error show';
+    stTitle.className='sc-title error'; stTitle.textContent='Connection error';
+    stBody.textContent='Could not verify. Check your internet connection and try again.';
+  }
+
+  btn.textContent='Verify & Activate'; btn.disabled=false;
+});
+
+// ── PWA Install ────────────────────────────────────────
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  const banner = document.getElementById('installBanner');
+  if (!localStorage.getItem('pwa-dismissed')) banner.classList.add('show');
+});
+
+document.getElementById('btnInstall').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBanner').classList.remove('show');
+  if (outcome === 'accepted') showToast('🎉 App installed successfully!');
+});
+
+document.getElementById('btnDismissBanner').addEventListener('click', () => {
+  document.getElementById('installBanner').classList.remove('show');
+  localStorage.setItem('pwa-dismissed', '1');
+});
+
+window.addEventListener('appinstalled', () => showToast('✅ JobHunter Global installed!'));
+
+// ── Service worker ─────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
 </body>
 </html>
