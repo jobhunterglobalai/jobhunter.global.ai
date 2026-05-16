@@ -495,6 +495,205 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: all .25s; pointer-events: none;
 }
 #toast.show { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════════════════════════════════════════
+   DESKTOP LAYOUT (768px+)
+   Sidebar nav replaces bottom tabs, wider content, 2-col grids
+════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+
+  /* Hide bottom nav, show sidebar */
+  .bottom-nav  { display: none !important; }
+  body { padding-bottom: 0; display: flex; flex-direction: column; }
+
+  /* Top nav — wider, add nav links */
+  .topnav {
+    padding: 0 40px; height: 64px;
+  }
+  .nav-name { font-size: 18px; }
+  .nav-icon-wrap { width: 38px; height: 38px; border-radius: 10px; }
+  .nav-cta { padding: 10px 20px; font-size: 14px; }
+
+  /* Desktop nav links in topnav */
+  .desktop-nav-links {
+    display: flex; align-items: center; gap: 4px; margin: 0 auto;
+  }
+  .dnl-btn {
+    padding: 7px 16px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    color: var(--muted); cursor: pointer; background: none; border: none;
+    font-family: inherit; transition: all .15s;
+  }
+  .dnl-btn:hover  { color: var(--text); background: var(--surface); }
+  .dnl-btn.active { color: var(--indigo); background: var(--indigo-lt); }
+
+  /* App shell: sidebar + content */
+  .app-shell {
+    display: flex; flex: 1; max-width: 1280px;
+    width: 100%; margin: 0 auto; padding: 0 40px;
+    gap: 32px;
+  }
+
+  /* Sidebar */
+  .desktop-sidebar {
+    display: flex; flex-direction: column; gap: 4px;
+    width: 220px; flex-shrink: 0; padding: 28px 0;
+    position: sticky; top: 64px; height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .dsb-label {
+    font-size: 10px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 16px 12px 6px; margin-top: 8px;
+  }
+  .dsb-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; color: var(--muted);
+    cursor: pointer; transition: all .15s; border: none;
+    background: none; font-family: inherit; width: 100%; text-align: left;
+  }
+  .dsb-item:hover  { color: var(--text); background: var(--surface); }
+  .dsb-item.active { color: var(--indigo); background: var(--indigo-lt); }
+  .dsb-icon { font-size: 18px; width: 24px; text-align: center; }
+
+  /* Main content area */
+  .content-area { flex: 1; min-width: 0; padding: 28px 0; }
+
+  /* Pages take full height */
+  .page { min-height: auto; }
+
+  /* Hero — wider, side-by-side layout */
+  .hero {
+    padding: 80px 0 80px; text-align: left;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 60px; max-width: 1000px; margin: 0 auto;
+  }
+  .hero::before { display: none; }
+  .hero h1 { font-size: 52px; line-height: 1.1; }
+  .hero-sub { font-size: 17px; max-width: 480px; }
+  .hero-btns { flex-direction: row; max-width: 480px; }
+  .hero-chips { justify-content: flex-start; }
+  .safe-note  { max-width: 480px; }
+
+  /* Hero right panel — mockup card */
+  .hero-mockup {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; box-shadow: 0 20px 60px rgba(79,70,229,.12);
+    overflow: hidden;
+  }
+  .hm-topbar {
+    background: linear-gradient(135deg, var(--indigo), var(--purple));
+    padding: 14px 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .hm-dots { display: flex; gap: 6px; }
+  .hm-dot  { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.4); }
+  .hm-title{ color: #fff; font-size: 13px; font-weight: 700; margin-left: 8px; }
+  .hm-body { padding: 16px; }
+  .hm-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+  .hm-stat {
+    background: var(--surface); border-radius: 10px; padding: 12px;
+    text-align: center;
+  }
+  .hm-stat-val { font-size: 22px; font-weight: 800; color: var(--indigo); }
+  .hm-stat-lbl { font-size: 10px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+  .hm-job-row {
+    background: var(--surface); border-radius: 10px; padding: 10px 12px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    border-left: 3px solid var(--indigo);
+  }
+  .hm-job-icon { font-size: 20px; }
+  .hm-job-title{ font-size: 12px; font-weight: 700; color: var(--text); }
+  .hm-job-sub  { font-size: 11px; color: var(--muted); }
+  .hm-job-badge{ margin-left: auto; background: var(--indigo-lt); color: var(--indigo);
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+
+  /* Sections — wider, constrained */
+  .section { padding: 60px 0; max-width: 1000px; margin: 0 auto; }
+
+  /* Steps — grid instead of horizontal scroll */
+  .steps-scroll {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    overflow: visible; margin: 0; padding: 0;
+    gap: 16px;
+  }
+  .step-card { width: auto; }
+
+  /* Feature cards — 2 column grid */
+  .feat-grid-desktop {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .feat-card { margin-bottom: 0; }
+
+  /* Pricing — side by side */
+  .pricing-grid-desktop {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; align-items: start;
+  }
+  .price-card { margin-bottom: 0; }
+  .price-card.featured { margin-top: 0; }
+
+  /* Flag grid — more columns */
+  .flag-grid { gap: 10px; }
+
+  /* Prep page — wider layout */
+  .prep-hero { padding: 48px 0; text-align: left; }
+  .prep-hero h2 { font-size: 32px; }
+  .plan-card { max-width: 720px; }
+  .bq-card   { max-width: 720px; }
+  .prompt-card{ max-width: 720px; }
+
+  /* Activate page — centered card */
+  .activate-hero { padding: 48px 0; text-align: left; }
+  .activate-hero h2 { font-size: 28px; }
+  .key-input-wrap { max-width: 560px; }
+  .btn-activate   { max-width: 560px; }
+  .status-card    { max-width: 560px; }
+  .plan-status-card{ max-width: 560px; }
+
+  /* Support page */
+  .faq-item { max-width: 720px; }
+  .contact-card { max-width: 560px; }
+
+  /* Install banner — bottom right on desktop */
+  #installBanner {
+    bottom: 24px; left: auto; right: 24px;
+    max-width: 380px; border-radius: 16px;
+  }
+
+  /* Two-column layout wrapper for sections that need it */
+  .desktop-two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  }
+
+  /* Sidebar brand section */
+  .dsb-brand {
+    padding: 0 12px 20px; border-bottom: 1px solid var(--border); margin-bottom: 8px;
+  }
+  .dsb-brand-name { font-size: 16px; font-weight: 800; color: var(--text); }
+  .dsb-brand-sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Section-alt full width bg on desktop */
+  .section-alt-desktop {
+    background: var(--surface);
+    margin: 0 -40px; padding-left: 40px; padding-right: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero h1 { font-size: 60px; }
+  .desktop-sidebar { width: 240px; }
+  .app-shell { gap: 48px; padding: 0 60px; }
+  .topnav { padding: 0 60px; }
+}
+
+/* Hide desktop elements on mobile */
+.desktop-nav-links { display: none; }
+.desktop-sidebar   { display: none; }
+.app-shell         { display: block; }
+.content-area      { display: block; }
+.feat-grid-desktop { display: block; }
+.pricing-grid-desktop { display: block; }
+.hero-mockup       { display: none; }
 </style>
 </head>
 <body>
@@ -527,10 +726,45 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </div>
     <span class="nav-name">JobHunter Global</span>
   </div>
+  <div class="desktop-nav-links" id="desktopNavLinks">
+    <button class="dnl-btn active" data-page="home"    onclick="switchPage('home')">Home</button>
+    <button class="dnl-btn"        data-page="prep"    onclick="switchPage('prep')">Prep Guide</button>
+    <button class="dnl-btn"        data-page="pricing" onclick="switchPage('pricing')">Pricing</button>
+    <button class="dnl-btn"        data-page="account" onclick="switchPage('account')">Activate</button>
+    <button class="dnl-btn"        data-page="support" onclick="switchPage('support')">Help</button>
+  </div>
   <a class="nav-cta" href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj" target="_blank">
     Get Extension
   </a>
 </nav>
+
+<!-- ── APP SHELL (desktop sidebar + content area) ──────── -->
+<div class="app-shell">
+
+<!-- Desktop sidebar -->
+<aside class="desktop-sidebar" id="desktopSidebar">
+  <div class="dsb-brand">
+    <div class="dsb-brand-name">JobHunter Global</div>
+    <div class="dsb-brand-sub">AI Job Search Assistant</div>
+  </div>
+  <div class="dsb-label">Main</div>
+  <button class="dsb-item active" data-page="home"    onclick="switchPage('home')">    <span class="dsb-icon">🏠</span> Home</button>
+  <button class="dsb-item"        data-page="prep"    onclick="switchPage('prep')">    <span class="dsb-icon">🧠</span> Prep Guide</button>
+  <button class="dsb-item"        data-page="pricing" onclick="switchPage('pricing')"> <span class="dsb-icon">💳</span> Pricing</button>
+  <button class="dsb-item"        data-page="account" onclick="switchPage('account')"> <span class="dsb-icon">🔑</span> Activate Licence</button>
+  <div class="dsb-label">Support</div>
+  <button class="dsb-item"        data-page="support" onclick="switchPage('support')"> <span class="dsb-icon">❓</span> Help & FAQ</button>
+  <div style="margin-top:auto;padding:20px 12px 0;border-top:1px solid var(--border);margin-top:20px">
+    <a href="https://chromewebstore.google.com/detail/jobhunter-global-%E2%80%94-ai-res/nnjkfmcjomnnhhpoobffbnbakeedolcj"
+       target="_blank"
+       style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none">
+      <span>🌐</span> Get Chrome Extension
+    </a>
+  </div>
+</aside>
+
+<!-- Content area -->
+<div class="content-area">
 
 <!-- ══════════════════════════════════════════════════════
      PAGE: HOME
@@ -538,6 +772,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="page active" id="page-home">
 
   <section class="hero">
+  <div><!-- hero left panel -->
     <div class="hero-badge">
       <svg width="12" height="12" viewBox="0 0 20 20" fill="#4F46E5"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
       Free to download · Chrome Extension · India & Worldwide
@@ -561,6 +796,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <span>🛡️</span>
       <div><strong>Chrome may show "Proceed with caution"</strong> — this appears on all new extensions until they reach a usage threshold. Click "Continue to install" to proceed safely.</div>
     </div>
+  </div><!-- hero left -->
+
+  <!-- Hero right: mockup card (desktop only) -->
+  <div class="hero-mockup">
+    <div class="hm-topbar">
+      <div class="hm-dots"><div class="hm-dot"></div><div class="hm-dot"></div><div class="hm-dot"></div></div>
+      <div class="hm-title">JobHunter Global</div>
+    </div>
+    <div class="hm-body">
+      <div class="hm-stat-row">
+        <div class="hm-stat"><div class="hm-stat-val">40+</div><div class="hm-stat-lbl">Job Boards</div></div>
+        <div class="hm-stat"><div class="hm-stat-val">50</div><div class="hm-stat-lbl">Countries</div></div>
+        <div class="hm-stat"><div class="hm-stat-val">87</div><div class="hm-stat-lbl">HM Score</div></div>
+      </div>
+      <div class="hm-job-row">
+        <div class="hm-job-icon">🏢</div>
+        <div><div class="hm-job-title">Senior Product Manager</div><div class="hm-job-sub">Google · Bangalore · ₹45–65 LPA</div></div>
+        <span class="hm-job-badge">Applied</span>
+      </div>
+      <div class="hm-job-row" style="border-left-color:var(--teal)">
+        <div class="hm-job-icon">💼</div>
+        <div><div class="hm-job-title">Engineering Manager</div><div class="hm-job-sub">Flipkart · Remote · ₹38–55 LPA</div></div>
+        <span class="hm-job-badge" style="background:#CCFBF1;color:var(--teal)">Interview</span>
+      </div>
+      <div class="hm-job-row" style="border-left-color:var(--amber)">
+        <div class="hm-job-icon">✨</div>
+        <div><div class="hm-job-title">AI Resume Tailored</div><div class="hm-job-sub">Match score: 91/100 · 5 questions ready</div></div>
+        <span class="hm-job-badge" style="background:#FEF3C7;color:var(--amber)">Ready</span>
+      </div>
+    </div>
+  </div>
+
   </section>
 
   <!-- How it works -->
@@ -583,6 +850,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <h2 class="section-title">Everything in one extension</h2>
     <p class="section-sub">No juggling between tabs, tools, or spreadsheets.</p>
 
+    <div class="feat-grid-desktop">
     <div class="feat-card"><div class="feat-icon fi-indigo">🔍</div><div class="feat-title">Multi-Site Job Search</div><div class="feat-desc">Naukri, LinkedIn, Indeed, Glassdoor, Seek, Bayt, JobStreet, Reed, Wellfound and 30+ more. Each site gets its own result card with a direct apply link.</div><div class="feat-tags"><span class="feat-tag">50 countries</span><span class="feat-tag">40+ boards</span><span class="feat-tag">Company portals</span></div></div>
 
     <div class="feat-card"><div class="feat-icon fi-purple">✨</div><div class="feat-title">AI Resume Tailoring</div><div class="feat-desc">Upload your PDF or DOCX. The AI rewrites it from a Senior Hiring Manager's perspective — grouped skills, surfaced certifications, ATS keywords, and a 0–100 shortlisting score.</div><div class="feat-tags"><span class="feat-tag">HM scoring</span><span class="feat-tag">Skills grouped</span><span class="feat-tag">ATS keywords</span></div></div>
@@ -733,7 +1001,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <h2 class="section-title">One-time purchase, no subscription</h2>
     <p class="section-sub">Pay once. Base valid 6 months · Bundle valid 12 months. AI uses your free Anthropic API key.</p>
 
-    <div class="price-card" style="margin-top:24px">
+    <div class="pricing-grid-desktop">
+    <div class="price-card" style="margin-top:0">
       <div class="price-name">Base Access</div>
       <div class="price-note">Job Search Suite · 6-month access</div>
       <div class="price-amount">₹450 <sub>one-time</sub></div>
@@ -770,6 +1039,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </ul>
       <a class="price-btn" href="https://rzp.io/rzp/0kLOwNk" target="_blank">Get Bundle — ₹750</a>
     </div>
+    </div><!-- end pricing-grid-desktop -->
 
     <p class="price-note-bottom">
       Payments via Razorpay · UPI, cards &amp; net banking<br/>
@@ -890,6 +1160,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </div>
 
+</div><!-- end content-area -->
+</div><!-- end app-shell -->
+
 <!-- ── BOTTOM TAB BAR ────────────────────────────────── -->
 <nav class="bottom-nav">
   <button class="bn-tab active" data-page="home" onclick="switchPage('home')">
@@ -926,9 +1199,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 // ── Page switching ─────────────────────────────────────
 function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.bn-tab').forEach(t => t.classList.remove('active'));
+  // Update all nav elements: bottom tabs, sidebar, desktop nav links
+  document.querySelectorAll('.bn-tab, .dsb-item, .dnl-btn').forEach(t => t.classList.remove('active'));
   document.getElementById('page-'+name)?.classList.add('active');
-  document.querySelector(`[data-page="${name}"]`)?.classList.add('active');
+  document.querySelectorAll(`[data-page="${name}"]`).forEach(el => el.classList.add('active'));
   window.scrollTo(0, 0);
 }
 
