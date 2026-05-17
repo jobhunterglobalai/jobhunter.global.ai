@@ -496,6 +496,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 #toast.show { opacity: 1; transform: translateY(0); }
 
+/* ── Mobile defaults (override on desktop via media query) ── */
+.desktop-nav-links    { display: none; }
+.desktop-sidebar      { display: none; }
+.app-shell            { display: block; }
+.content-area         { display: block; }
+.feat-grid-desktop    { display: block; }
+.pricing-grid-desktop { display: block; }
+.hero-mockup          { display: none; }
+
 /* ════════════════════════════════════════════════════════════
    DESKTOP LAYOUT (768px+)
    Sidebar nav replaces bottom tabs, wider content, 2-col grids
@@ -525,6 +534,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   }
   .dnl-btn:hover  { color: var(--text); background: var(--surface); }
   .dnl-btn.active { color: var(--indigo); background: var(--indigo-lt); }
+
+  /* Show desktop elements */
+  .desktop-nav-links  { display: flex !important; }
+  .desktop-sidebar    { display: flex !important; }
+  .app-shell          { display: flex !important; }
+  .content-area       { display: block !important; }
+  .feat-grid-desktop  { display: grid !important; }
+  .pricing-grid-desktop { display: grid !important; }
+  .hero-mockup        { display: block !important; }
 
   /* App shell: sidebar + content */
   .app-shell {
@@ -565,7 +583,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   /* Hero — wider, side-by-side layout */
   .hero {
     padding: 80px 0 80px; text-align: left;
-    display: grid; grid-template-columns: 1fr 1fr;
+    display: grid !important; grid-template-columns: 1fr 1fr;
     align-items: center; gap: 60px; max-width: 1000px; margin: 0 auto;
   }
   .hero::before { display: none; }
@@ -686,14 +704,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .topnav { padding: 0 60px; }
 }
 
-/* Hide desktop elements on mobile */
-.desktop-nav-links { display: none; }
-.desktop-sidebar   { display: none; }
-.app-shell         { display: block; }
-.content-area      { display: block; }
-.feat-grid-desktop { display: block; }
-.pricing-grid-desktop { display: block; }
-.hero-mockup       { display: none; }
+
 </style>
 </head>
 <body>
